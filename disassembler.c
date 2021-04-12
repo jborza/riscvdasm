@@ -178,7 +178,7 @@ void sll(State* state, word* instruction) {
 
 void slli(State* state, word* instruction) {
 	InstructionIShift* in = instruction;
-	PRINT_DEBUG("slli %s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt);
+	PRINT_DEBUG("slli %s,0x%x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt & 0x1F);
 }
 
 void slt(State* state, word* instruction) {
@@ -212,7 +212,7 @@ void sra(State* state, word* instruction) {
 
 void srai(State* state, word* instruction) {
 	InstructionIShift* in = instruction;
-	PRINT_DEBUG("srai %s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt);
+	PRINT_DEBUG("srai %s,%s,0x%x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt & 0x1F);
 }
 
 //shift right logical
@@ -222,7 +222,7 @@ void srl(State* state, word* instruction) {
 
 void srli(State* state, word* instruction) {
 	InstructionIShift* in = instruction;
-	PRINT_DEBUG("srli %s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt);
+	PRINT_DEBUG("srli %s,%s,0x%x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt & 0x1F);
 }
 
 void sub(State* state, word* instruction) {
