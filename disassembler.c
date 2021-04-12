@@ -7,6 +7,7 @@
 #include "decode.h"
 #include "csr.h"
 #include "state.h"
+#include "register.h"
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
 
 #define INS_MATCH(MASK,MATCH,HANDLER) else if ((*instruction & MASK) == MATCH) { HANDLER(state, instruction);	}
@@ -34,9 +35,9 @@ void add(State* state, word* instruction) {
 void addi(State* state, word* instruction) {
 	sword imm = get_i_imm(*instruction);
 	if(GET_RS1(*instruction) == 0)
-		PRINT_DEBUG("li x%d,%d\n", GET_RD(*instruction), imm);	
+		PRINT_DEBUG("li %s,%d\n", register_name[GET_RD(*instruction)], imm);	
 	else
-		PRINT_DEBUG("addi x%d,x%d,%d\n", GET_RD(*instruction), GET_RS1(*instruction), imm);
+		PRINT_DEBUG("addi %s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], imm);
 }
 
 //bitwise and between rs1 and rs2
@@ -307,7 +308,7 @@ void csrrs(State* state, word* instruction) {
 //atomic read/write CSR
 void csrrw(State* state, word* instruction) {
 	word csr = get_i_imm_unsigned(*instruction);
-	PRINT_DEBUG("csrrw x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), csr);
+	PRINT_DEBUG("csrrw x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction),  csr);
 }
 
 //atomic read & clear bits in CSR

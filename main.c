@@ -4,7 +4,6 @@
 
 int main(int argc, char* argv[]){
     //read input binary from stdin, output text to stdout
-    char buffer[4];
     uint32_t offset = 0;
     while(1){
         printf("%8X:", offset);
