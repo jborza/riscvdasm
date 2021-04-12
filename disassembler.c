@@ -33,7 +33,10 @@ void add(State* state, word* instruction) {
 
 void addi(State* state, word* instruction) {
 	sword imm = get_i_imm(*instruction);
-	PRINT_DEBUG("addi x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), imm);
+	if(GET_RS1(*instruction) == 0)
+		PRINT_DEBUG("li x%d,%d\n", GET_RD(*instruction), imm);	
+	else
+		PRINT_DEBUG("addi x%d,x%d,%d\n", GET_RD(*instruction), GET_RS1(*instruction), imm);
 }
 
 //bitwise and between rs1 and rs2
@@ -95,7 +98,11 @@ void jal(State* state, word* instruction) {
 
 	//signed offset in multiples of 2 bytes
 	sword offset = get_j_imm(*instruction);
-	PRINT_DEBUG("jal x%d,0x%08x\n", GET_RD(*instruction), offset);
+	int rd = GET_RD(*instruction);
+	if(rd == 0)
+		PRINT_DEBUG("j %X\n", offset);
+	else
+		PRINT_DEBUG("jal x%d, 0x%X\n", rd, offset);
 }
 
 //jump and link register
