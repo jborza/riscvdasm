@@ -35,7 +35,10 @@ void add(State* state, word* instruction) {
 void addi(State* state, word* instruction) {
 	sword imm = get_i_imm(*instruction);
 	if(GET_RS1(*instruction) == 0)
-		PRINT_DEBUG("li %s,%d\n", register_name[GET_RD(*instruction)], imm);	
+		if(GET_RD(*instruction) == 0 && imm == 0)
+			PRINT_DEBUG("nop\n");
+		else
+			PRINT_DEBUG("li %s,%d\n", register_name[GET_RD(*instruction)], imm);	
 	else
 		PRINT_DEBUG("addi %s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], imm);
 }
