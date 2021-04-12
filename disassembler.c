@@ -29,7 +29,7 @@ int get_rs2(word* instruction) {
 }
 
 void add(State* state, word* instruction) {
-	PRINT_DEBUG("add x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("add %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 void addi(State* state, word* instruction) {
@@ -42,7 +42,7 @@ void addi(State* state, word* instruction) {
 
 //bitwise and between rs1 and rs2
 void /**/and (State* state, word* instruction) {
-	PRINT_DEBUG("and x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("and %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 //bitwise and on rs1 and sign-extended 12-bit immediate
@@ -62,7 +62,10 @@ void beq(State* state, word* instruction) {
 
 //branch on greater or equal
 void bge(State* state, word* instruction) {
-	PRINT_DEBUG("bge x%d,x%d,0x%08x\n", GET_RS1(*instruction), GET_RS2(*instruction), get_b_imm(*instruction));
+	if(GET_RS2(*instruction)==0)
+		PRINT_DEBUG("bgez %s,0x%x\n", register_name[GET_RS1(*instruction)], get_b_imm(*instruction));
+	else
+		PRINT_DEBUG("bge %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 }
 
 //branch on greater or equal unsigned
@@ -267,7 +270,7 @@ void wfi(State* state, word* instruction) {
 
 
 #define M_OP(NAME, OP) { \
-	PRINT_DEBUG(NAME" x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction)); \
+	PRINT_DEBUG(NAME" %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]); \
 }
 
 void mul(State* state, word* instruction) {
@@ -302,35 +305,35 @@ void divu(State* state, word* instruction) {
 //atomic read & set bits in CSR
 void csrrs(State* state, word* instruction) {
 	word csr = get_i_imm_unsigned(*instruction);
-	PRINT_DEBUG("csrrs x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), csr);
+	PRINT_DEBUG("csrrs %s,%s,%s\n", register_name[GET_RD(*instruction)], csr_name(csr), register_name[GET_RS1(*instruction)]);
 }
 
 //atomic read/write CSR
 void csrrw(State* state, word* instruction) {
 	word csr = get_i_imm_unsigned(*instruction);
-	PRINT_DEBUG("csrrw x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction),  csr);
+	PRINT_DEBUG("csrrw %s,%s,%s\n", register_name[GET_RD(*instruction)], csr_name(csr), register_name[GET_RS1(*instruction)]);
 }
 
 //atomic read & clear bits in CSR
 void csrrc(State* state, word* instruction) {
 	word csr = get_i_imm_unsigned(*instruction);
-	PRINT_DEBUG("csrrc x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), csr);
+	PRINT_DEBUG("csrrc %s,%s,%s\n", register_name[GET_RD(*instruction)], csr_name(csr), register_name[GET_RS1(*instruction)]);
 }
 
 //instead of rs1 use a zero-extended 5-bit unsigned immediate
 void csrrwi(State* state, word* instruction) {
 	word csr = get_i_imm_unsigned(*instruction);
-	PRINT_DEBUG("csrrwi x%d,0x%x,0x%08x\n", GET_RD(*instruction), GET_CSR_IMM(*instruction), csr);
+	PRINT_DEBUG("csrrwi %s,%s,%d\n", register_name[GET_RD(*instruction)], csr_name(csr), GET_CSR_IMM(*instruction));
 }
 
 void csrrsi(State* state, word* instruction) {
 	word csr = get_i_imm_unsigned(*instruction);
-	PRINT_DEBUG("csrrsi x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_CSR_IMM(*instruction), csr);
+	PRINT_DEBUG("csrrsi %s,%s,%d\n", register_name[GET_RD(*instruction)], csr_name(csr), GET_CSR_IMM(*instruction));
 }
 
 void csrrci(State* state, word* instruction) {
 	word csr = get_i_imm_unsigned(*instruction);
-	PRINT_DEBUG("csrrci x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_CSR_IMM(*instruction), csr);
+	PRINT_DEBUG("csrrci %s,%s,%d\n", register_name[GET_RD(*instruction)], csr_name(csr), GET_CSR_IMM(*instruction));
 }
 
 void ebreak(State* state, word* instruction) {

@@ -226,6 +226,7 @@
 #define CSR_VSTART 0x8
 #define CSR_VXSAT 0x9
 #define CSR_VXRM 0xa
+#define CSR_VCSR 0xf
 #define CSR_USCRATCH 0x40
 #define CSR_UEPC 0x41
 #define CSR_UCAUSE 0x42
@@ -265,7 +266,10 @@
 #define CSR_HPMCOUNTER31 0xc1f
 #define CSR_VL 0xc20
 #define CSR_VTYPE 0xc21
+#define CSR_VLENB 0xc22
 #define CSR_SSTATUS 0x100
+#define CSR_SEDELEG 0x102
+#define CSR_SIDELEG 0x103
 #define CSR_SIE 0x104
 //supervisor trap vector
 #define CSR_STVEC 0x105
@@ -290,8 +294,16 @@
 #define CSR_HSTATUS 0x600
 #define CSR_HEDELEG 0x602
 #define CSR_HIDELEG 0x603
+#define CSR_HIE 0x604
+#define CSR_HTIMEDELTA 0x605
 #define CSR_HCOUNTEREN 0x606
+#define CSR_HGEIE 0x607
+#define CSR_HTVAL 0x643
+#define CSR_HIP 0x644
+#define CSR_HVIP 0x645
+#define CSR_HTINST 0x64a
 #define CSR_HGATP 0x680
+#define CSR_HGEIP 0xe12
 #define CSR_UTVT 0x7
 #define CSR_UNXTI 0x45
 #define CSR_UINTSTATUS 0x46
@@ -314,6 +326,7 @@
 #define CSR_MIE 0x304
 #define CSR_MTVEC 0x305
 #define CSR_MCOUNTEREN 0x306
+#define CSR_MCOUNTINHIBIT 0x320
 #define CSR_MSCRATCH 0x340
 //Machine Exception Program Counter
 //When a trap is taken into M-mode,mepc is written with the virtual address of the instruction that encountered the exception. 
@@ -321,6 +334,8 @@
 #define CSR_MCAUSE 0x342
 #define CSR_MTVAL 0x343
 #define CSR_MIP 0x344
+#define CSR_MTINST 0x34a
+#define CSR_MTVAL2 0x34b
 #define CSR_PMPCFG0 0x3a0
 #define CSR_PMPCFG1 0x3a1
 #define CSR_PMPCFG2 0x3a2
@@ -345,9 +360,14 @@
 #define CSR_TDATA1 0x7a1
 #define CSR_TDATA2 0x7a2
 #define CSR_TDATA3 0x7a3
+#define CSR_TINFO 0x7a4
+#define CSR_TCONTROL 0x7a5
+#define CSR_MCONTEXT 0x7a8
+#define CSR_SCONTEXT 0x7aa
 #define CSR_DCSR 0x7b0
 #define CSR_DPC 0x7b1
-#define CSR_DSCRATCH 0x7b2
+#define CSR_DSCRATCH0 0x7b2
+#define CSR_DSCRATCH1 0x7b3
 #define CSR_MCYCLE 0xb00
 #define CSR_MINSTRET 0xb02
 #define CSR_MHPMCOUNTER3 0xb03
@@ -413,6 +433,9 @@
 #define CSR_MARCHID 0xf12
 #define CSR_MIMPID 0xf13
 #define CSR_MHARTID 0xf14
+#define CSR_MENTROPY 0xf15
+#define CSR_MNOISE 0x7a9
+#define CSR_HTIMEDELTAH 0x615
 #define CSR_CYCLEH 0xc80
 #define CSR_TIMEH 0xc81
 #define CSR_INSTRETH 0xc82
@@ -445,6 +468,7 @@
 #define CSR_HPMCOUNTER29H 0xc9d
 #define CSR_HPMCOUNTER30H 0xc9e
 #define CSR_HPMCOUNTER31H 0xc9f
+#define CSR_MSTATUSH 0x310
 #define CSR_MCYCLEH 0xb80
 #define CSR_MINSTRETH 0xb82
 #define CSR_MHPMCOUNTER3H 0xb83
@@ -476,3 +500,4 @@
 #define CSR_MHPMCOUNTER29H 0xb9d
 #define CSR_MHPMCOUNTER30H 0xb9e
 #define CSR_MHPMCOUNTER31H 0xb9f
+
