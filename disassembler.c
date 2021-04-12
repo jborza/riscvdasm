@@ -48,16 +48,16 @@ void /**/and (State* state, word* instruction) {
 //bitwise and on rs1 and sign-extended 12-bit immediate
 void andi(State* state, word* instruction) {
 	sword imm = get_i_imm(*instruction);
-	PRINT_DEBUG("andi x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), imm);
+	PRINT_DEBUG("andi %s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], imm);
 }
 
 void auipc(State* state, word* instruction) {
 	InstructionU* in = instruction;
-	PRINT_DEBUG("auipc x%d,0x%08x\n", GET_RD(*instruction), in->data << 12);
+	PRINT_DEBUG("auipc %s,0x%08x\n", register_name[GET_RD(*instruction)], in->data << 12);
 }
 
 void beq(State* state, word* instruction) {
-	PRINT_DEBUG("beq x%d,x%d,0x%08x\n", GET_RS1(*instruction), GET_RS2(*instruction), get_b_imm(*instruction));
+	PRINT_DEBUG("beq %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 }
 
 //branch on greater or equal
@@ -70,29 +70,29 @@ void bge(State* state, word* instruction) {
 
 //branch on greater or equal unsigned
 void bgeu(State* state, word* instruction) {
-	PRINT_DEBUG("bgeu x%d,x%d,0x%08x\n", GET_RS1(*instruction), GET_RS2(*instruction), get_b_imm(*instruction));
+	PRINT_DEBUG("bgeu %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 }
 
 //branch on less than
 void blt(State* state, word* instruction) {
-	PRINT_DEBUG("blt x%d,x%d,0x%08x\n", GET_RS1(*instruction), GET_RS2(*instruction), get_b_imm(*instruction));
+	PRINT_DEBUG("blt %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 }
 
 //branch on less than unsigned
 void bltu(State* state, word* instruction) {
-	PRINT_DEBUG("bltu x%d,x%d,0x%08x\n", GET_RS1(*instruction), GET_RS2(*instruction), get_b_imm(*instruction));
+	PRINT_DEBUG("bltu %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 }
 
 void bne(State* state, word* instruction) {
 	//branch if src1 and src2 not equal
-	PRINT_DEBUG("bne x%d,x%d,0x%08x\n", GET_RS1(*instruction), GET_RS2(*instruction), get_b_imm(*instruction));
+	PRINT_DEBUG("bne %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 }
 
 void fence(State* state, word* instruction) {
-	PRINT_DEBUG("fence [no-op]\n");
+	PRINT_DEBUG("fence\n");
 }
 void fencei(State* state, word* instruction) {
-	PRINT_DEBUG("fencei [no-op]\n");
+	PRINT_DEBUG("fence.i\n");
 }
 
 //jump and link, J-immediate, 
@@ -104,145 +104,145 @@ void jal(State* state, word* instruction) {
 	sword offset = get_j_imm(*instruction);
 	int rd = GET_RD(*instruction);
 	if(rd == 0)
-		PRINT_DEBUG("j %X\n", offset);
+		PRINT_DEBUG("j 0x%X\n", offset);
 	else
-		PRINT_DEBUG("jal x%d, 0x%X\n", rd, offset);
+		PRINT_DEBUG("jal %s, 0x%X\n", register_name[rd], offset);
 }
 
 //jump and link register
 void jalr(State* state, word* instruction) {
 	sword offset = get_i_imm(*instruction);
-	PRINT_DEBUG("jalr x%d, x%d, 0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), offset);
+	PRINT_DEBUG("jalr %s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], offset);
 }
 
 //load 8-bit sign-extended value from memory into rd
 void lb(State* state, word* instruction) {
 	sword offset = get_i_imm(*instruction);
-	PRINT_DEBUG("lb x%d,%d(x%d)\n", GET_RD(*instruction), offset, GET_RS1(*instruction));
+	PRINT_DEBUG("lb %s,%d(%s)\n", register_name[GET_RD(*instruction)], offset, register_name[GET_RS1(*instruction)]);
 }
 
 //load 8-bit zero-extended value from memory into rd
 void lbu(State* state, word* instruction) {
 	sword offset = get_i_imm(*instruction);
-	PRINT_DEBUG("lbu x%d,%d(x%d)\n", GET_RD(*instruction), offset, GET_RS1(*instruction));
+	PRINT_DEBUG("lbu %s,%d(%s)\n", register_name[GET_RD(*instruction)], offset, register_name[GET_RS1(*instruction)]);
 }
 
 //load 16-bit sign-extended value from memory into rd
 void lh(State* state, word* instruction) {
 	sword offset = get_i_imm(*instruction);
-	PRINT_DEBUG("lh x%d,%d(x%d)\n", GET_RD(*instruction), offset, GET_RS1(*instruction));
+	PRINT_DEBUG("lh %s,%d(%s)\n", register_name[GET_RD(*instruction)], offset, register_name[GET_RS1(*instruction)]);
 }
 
 //load 16-bit zero-extended value from memory into rd
 void lhu(State* state, word* instruction) {
 	sword offset = get_i_imm(*instruction);
-	PRINT_DEBUG("lhu x%d,%d(x%d)\n", GET_RD(*instruction), offset, GET_RS1(*instruction));
+	PRINT_DEBUG("lhu %s,%d(%s)\n", register_name[GET_RD(*instruction)], offset, register_name[GET_RS1(*instruction)]);
 }
 
 void lui(State* state, word* instruction) {
 	InstructionU* in = instruction;
-	PRINT_DEBUG("lui x%d,0x%08x\n", GET_RD(*instruction), in->data << 12);
+	PRINT_DEBUG("lui %s,0x%08x\n", register_name[GET_RD(*instruction)], in->data << 12);
 }
 
 //load 32-bit value from memory into rd
 void lw(State* state, word* instruction) {
 	sword offset = get_i_imm(*instruction);
-	PRINT_DEBUG("lw x%d,%d(x%d)\n", GET_RD(*instruction), offset, GET_RS1(*instruction));
+	PRINT_DEBUG("lw %s,%d(%s)\n", register_name[GET_RD(*instruction)], offset, register_name[GET_RS1(*instruction)]);
 }
 
 void or (State * state, word * instruction) {
-	PRINT_DEBUG("or x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("or %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 //bitwise or on rs1 and sign-extended 12-bit immediate
 void ori(State* state, word* instruction) {
 	InstructionI* in = instruction;
-	PRINT_DEBUG("ori x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), in->imm);
+	PRINT_DEBUG("ori %s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
 }
 
 //store 8-bit value from the low bits of rs2 to the memory
 void sb(State* state, word* instruction) {
 	sword offset = get_s_imm(*instruction);
-	PRINT_DEBUG("sb x%d,%d(x%d)\n", GET_RS2(*instruction), offset, GET_RS1(*instruction));
+	PRINT_DEBUG("sb %s,%d(%s)\n", register_name[GET_RS2(*instruction)], offset, register_name[GET_RS1(*instruction)]);
 }
 
 //store 16-bit value from the low bits of rs2 to the memory
 void sh(State* state, word* instruction) {
 	sword offset = get_s_imm(*instruction);
-	PRINT_DEBUG("sh x%d,%d(x%d)\n", GET_RS2(*instruction), offset, GET_RS1(*instruction));
+	PRINT_DEBUG("sh %s,%d(%s)\n", register_name[GET_RS2(*instruction)], offset, register_name[GET_RS1(*instruction)]);
 }
 
 void sll(State* state, word* instruction) {
-	PRINT_DEBUG("sll x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("sll %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 void slli(State* state, word* instruction) {
 	InstructionIShift* in = instruction;
-	PRINT_DEBUG("slli x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), in->shamt);
+	PRINT_DEBUG("slli %s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt);
 }
 
 void slt(State* state, word* instruction) {
 	//signed comparison, if rs1 < rs2 then rd=1 else rd=0
-	PRINT_DEBUG("slt x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("slt %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 void sltu(State* state, word* instruction) {
 	//unsigned comparison, if rs1 < rs2 then rd=1 else rd=0
-	PRINT_DEBUG("sltu x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("sltu %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 //set less than immediate
 void slti(State* state, word* instruction) {
 	//places the value 1 in register rd if register rs1 is less than the sign - extended immediate when both are treated as signed numbers, else 0 is written to rd
 	InstructionI* in = instruction;
-	PRINT_DEBUG("slti x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), in->imm);
+	PRINT_DEBUG("slti %s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
 }
 
 //set less than immediate unsigned
 void sltiu(State* state, word* instruction) {
 	//places the value 1 in register rd if register rs1 is less than the sign - extended immediate when both are treated as signed numbers, else 0 is written to rd
 	InstructionI* in = instruction;
-	PRINT_DEBUG("sltiu x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), in->imm);
+	PRINT_DEBUG("sltiu %s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
 }
 
 //shift right arithmetic
 void sra(State* state, word* instruction) {
-	PRINT_DEBUG("sra x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("sra %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 void srai(State* state, word* instruction) {
 	InstructionIShift* in = instruction;
-	PRINT_DEBUG("srai x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), in->shamt);
+	PRINT_DEBUG("srai %s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt);
 }
 
 //shift right logical
 void srl(State* state, word* instruction) {
-	PRINT_DEBUG("sll x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("srl %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 void srli(State* state, word* instruction) {
 	InstructionIShift* in = instruction;
-	PRINT_DEBUG("srli x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), in->shamt);
+	PRINT_DEBUG("srli %s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->shamt);
 }
 
 void sub(State* state, word* instruction) {
-	PRINT_DEBUG("sub x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("sub %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 //store 32-bit value from rs to memory
 void sw(State* state, word* instruction) {
 	sword offset = get_s_imm(*instruction);
-	PRINT_DEBUG("sw x%d,%d(x%d)\n", GET_RS2(*instruction), offset, GET_RS1(*instruction));
+	PRINT_DEBUG("sw %s,%d(%s)\n", register_name[GET_RS2(*instruction)], offset, register_name[GET_RS1(*instruction)]);
 }
 
 void /**/xor (State* state, word* instruction) {
-	PRINT_DEBUG("xor x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	PRINT_DEBUG("xor %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 //bitwise xor on rs1 and sign-extended 12-bit immediate
 void xori(State* state, word* instruction) {
 	InstructionI* in = instruction;
-	PRINT_DEBUG("xori x%d,x%d,0x%08x\n", GET_RD(*instruction), GET_RS1(*instruction), in->imm);
+	PRINT_DEBUG("xori %s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
 }
 
 void mret(State* state, word* instruction) {
@@ -347,7 +347,7 @@ void ecall(State* state, word* instruction) {
 // A extension
 
 #define AMO_OP_W(NAME, OP) { \
-PRINT_DEBUG(NAME" x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction)); \
+PRINT_DEBUG(NAME" %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]); \
 }
 
 void amoadd_w(State* state, word* instruction) {
@@ -367,18 +367,18 @@ void amoxor_w(State* state, word* instruction) {
 }
 
 void amoswap_w(State* state, word* instruction) {
-	PRINT_DEBUG("amoswap.w x%d,x%d,x%d\n", GET_RD(*instruction), GET_RS1(*instruction), GET_RS2(*instruction));
+	AMO_OP_W("amoswap.w", +);
 }
 
 void lr(State* state, word* instruction) {
-	PRINT_DEBUG("lr x%d, (x%d)\n", GET_RD(*instruction), GET_RS1(*instruction));
+	PRINT_DEBUG("lr %s, (%s)\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)]);
 }
 
 void sc(State* state, word* instruction)
 {
 	// SC.W writes zero to rd on success or a nonzero code on failure.
 	//see https://riscv.org/wp-content/uploads/2019/06/riscv-spec.pdf
-	PRINT_DEBUG("sc x%d,x%d,(x%d)\n", GET_RD(*instruction), GET_RS2(*instruction), GET_RS1(*instruction));
+	PRINT_DEBUG("sc %s,%s,(%s)\n", register_name[GET_RD(*instruction)], register_name[GET_RS2(*instruction)], register_name[GET_RS1(*instruction)]);
 }
 
 
