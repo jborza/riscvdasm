@@ -347,7 +347,7 @@ void ecall(State* state, word* instruction) {
 // A extension
 
 #define AMO_OP_W(NAME, OP) { \
-PRINT_DEBUG(NAME" %s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]); \
+PRINT_DEBUG(NAME" %s,%s,(%s)\n", register_name[GET_RD(*instruction)], register_name[GET_RS2(*instruction)], register_name[GET_RS1(*instruction)]); \
 }
 
 void amoadd_w(State* state, word* instruction) {
