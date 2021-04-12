@@ -60,13 +60,18 @@ void auipc(State* state, word* instruction) {
 }
 
 void beq(State* state, word* instruction) {
-	PRINT_DEBUG("beq %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
+	if(GET_RS2(*instruction) == 0)
+		PRINT_DEBUG("beqz %s,0x%x\n", register_name[GET_RS1(*instruction)], get_b_imm(*instruction));
+	else
+		PRINT_DEBUG("beq %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 }
 
 //branch on greater or equal
 void bge(State* state, word* instruction) {
 	if(GET_RS2(*instruction)==0)
 		PRINT_DEBUG("bgez %s,0x%x\n", register_name[GET_RS1(*instruction)], get_b_imm(*instruction));
+	else if(GET_RS1(*instruction)==0)
+		PRINT_DEBUG("blez %s,0x%x\n", register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 	else
 		PRINT_DEBUG("bge %s,%s,0x%x\n", register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)], get_b_imm(*instruction));
 }
