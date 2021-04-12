@@ -6,7 +6,7 @@ int main(int argc, char* argv[]){
     //read input binary from stdin, output text to stdout
     uint32_t offset = 0;
     while(1){
-        printf("%8X:", offset);
+        printf("%8x:", offset);
         uint32_t op = 0u;
 
         op |= getc(stdin);            
@@ -14,7 +14,7 @@ int main(int argc, char* argv[]){
         op |= getc(stdin) << 16;     
         op |= getc(stdin) << 24;      
         
-        printf("\t%08X\t", op);
+        printf("\t%08x\t\t", op);
         disassemble_op(&op);
         offset += 4;
 
