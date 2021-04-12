@@ -34,11 +34,14 @@ void add(State* state, word* instruction) {
 
 void addi(State* state, word* instruction) {
 	sword imm = get_i_imm(*instruction);
-	if(GET_RS1(*instruction) == 0)
+	if(GET_RS1(*instruction) == 0){
 		if(GET_RD(*instruction) == 0 && imm == 0)
 			PRINT_DEBUG("nop\n");
 		else
-			PRINT_DEBUG("li %s,%d\n", register_name[GET_RD(*instruction)], imm);	
+			PRINT_DEBUG("li %s,%d\n", register_name[GET_RD(*instruction)], imm);
+	}
+	else if(imm == 0)
+		PRINT_DEBUG("mv %s,%s\n",  register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)]);
 	else
 		PRINT_DEBUG("addi %s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], imm);
 }
@@ -250,7 +253,10 @@ void /**/xor (State* state, word* instruction) {
 //bitwise xor on rs1 and sign-extended 12-bit immediate
 void xori(State* state, word* instruction) {
 	InstructionI* in = instruction;
-	PRINT_DEBUG("xori %s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
+	if(in->imm==-1)
+		PRINT_DEBUG("not %s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)]);
+	else
+		PRINT_DEBUG("xori %s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
 }
 
 void mret(State* state, word* instruction) {
