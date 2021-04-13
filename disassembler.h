@@ -7,4 +7,4 @@ void print_debug(const char* s, ...);
 #define GET_RS1(x) ((x >> 15) & 0x1F)
 #define GET_CSR_IMM(x) ((x >> 15) & 0x1F)
 #define GET_RS2(x) ((x >> 20) & 0x1F)
-void disassemble_op(word *instruction);
+void disassemble_op(word *instruction, word offset);

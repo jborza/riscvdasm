@@ -15,7 +15,7 @@ int main(int argc, char* argv[]){
         op |= getc(stdin) << 24;      
         
         printf("\t%08x\t\t", op);
-        disassemble_op(&op);
+        disassemble_op(&op, offset);
         offset += 4;
 
         int dummy = getc(stdin);
