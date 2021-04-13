@@ -137,8 +137,10 @@ void jalr(State* state, word* instruction) {
 		PRINT_DEBUG("jalr\t%s\n",  register_name[GET_RS1(*instruction)]);
 	else if(offset == 0 && GET_RD(*instruction) == 0)
 		PRINT_DEBUG("jr\t%s\n", register_name[GET_RS1(*instruction)]);
+	else if(GET_RD(*instruction) == GET_RS1(*instruction))
+		PRINT_DEBUG("jalr\t%d(%s)\n", offset, register_name[GET_RS1(*instruction)]);
 	else
-		PRINT_DEBUG("jalr\t%s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], offset);
+		PRINT_DEBUG("jalr\t%s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], offset);
 }
 
 //load 8-bit sign-extended value from memory into rd
@@ -214,21 +216,27 @@ void slt(State* state, word* instruction) {
 
 void sltu(State* state, word* instruction) {
 	//unsigned comparison, if rs1 < rs2 then rd=1 else rd=0
-	PRINT_DEBUG("sltu\t%s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
+	if(GET_RS1(*instruction)==0)
+		PRINT_DEBUG("snez\t%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS2(*instruction)]);
+	else
+		PRINT_DEBUG("sltu\t%s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 //set less than immediate
 void slti(State* state, word* instruction) {
 	//places the value 1 in register rd if register rs1 is less than the sign - extended immediate when both are treated as signed numbers, else 0 is written to rd
 	InstructionI* in = instruction;
-	PRINT_DEBUG("slti\t%s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
+	PRINT_DEBUG("slti\t%s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
 }
 
 //set less than immediate unsigned
 void sltiu(State* state, word* instruction) {
 	//places the value 1 in register rd if register rs1 is less than the sign - extended immediate when both are treated as signed numbers, else 0 is written to rd
 	InstructionI* in = instruction;
-	PRINT_DEBUG("sltiu\t%s,%s,0x%08x\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
+	if(in->imm==1)
+		PRINT_DEBUG("seqz\t%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)]);
+	else
+		PRINT_DEBUG("sltiu\t%s,%s,%d\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], in->imm);
 }
 
 //shift right arithmetic
