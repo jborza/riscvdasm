@@ -211,7 +211,10 @@ void slli(State* state, word* instruction) {
 
 void slt(State* state, word* instruction) {
 	//signed comparison, if rs1 < rs2 then rd=1 else rd=0
-	PRINT_DEBUG("slt\t%s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
+	if(GET_RS1(*instruction)==0)
+		PRINT_DEBUG("sgtz\t%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS2(*instruction)]);
+	else
+		PRINT_DEBUG("slt\t%s,%s,%s\n", register_name[GET_RD(*instruction)], register_name[GET_RS1(*instruction)], register_name[GET_RS2(*instruction)]);
 }
 
 void sltu(State* state, word* instruction) {
