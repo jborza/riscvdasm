@@ -1,0 +1,29 @@
+<html>
+
+<body>
+    <h3>RISC-V RV32IMA Disassembler</h3>
+    <label for="file_input">Select a binary file:</label>
+    <input type="file" id="file_input" onchange="load_file()">
+
+    <div>
+        <textarea id="output" style="background-color: black; color: white; font-family: 'Lucida Console', Monaco, monospace;
+            width: 100%; height: 480px;">
+            </textarea>
+    </div>
+
+    Sample files:
+    <br />
+    <ul>
+        <li>
+            <a href="sample/bbl32-small.bin">bbl32-small.bin</a>
+        </li>
+        <li>
+            <a href="sample/amoadd.w.bin">amoadd.w.bin</a>
+        </li>
+    </ul>
+</body>
+
+<script type="text/javascript" src="auto_em.js"></script>
+<script type="text/javascript" src="dasm.js"></script>
+
+</html>

@@ -1,3 +1,4 @@
 test/
 a.out
 riscvdasm
+web/auto_em.*

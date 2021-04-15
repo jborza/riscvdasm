@@ -13,6 +13,15 @@
 make
 ```
 
+### Building the web version:
+
+Requirements: 
+- Install `emscripten`: https://emscripten.org/docs/getting_started/index.html
+
+```sh
+make web
+```
+
 ### Usage:
 ```
 ./riscvdasm < test/simple.bin
@@ -34,11 +43,13 @@ make
 ```
 
 ### TODO
-- simplified csr instructions (csrc, csrs, csrw)
+- more pseudoinstructions according to https://riscv.org/wp-content/uploads/2017/05/riscv-spec-v2.2.pdf (chapter 20)
 - floating point extension
+- lui -> addi combo (track register value if these two are chained?)
+- elf binaries
 
 ### Note:
-To compare results with canonical `objdump`, use
+To compare results with the canonical riscv32 `objdump`, use
 
 ```sh
 riscv32-unknown-elf-objdump -D -b binary -m riscv FILE
